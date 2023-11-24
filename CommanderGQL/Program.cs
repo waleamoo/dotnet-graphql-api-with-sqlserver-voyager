@@ -17,11 +17,13 @@ builder.Services
     .AddGraphQLServer()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>()
+    .AddSubscriptionType<Subscription>()
     .AddType<PlatformType>()
     .AddType<CommandType>()
     //.AddProjections(); // enables parent, child projection
     .AddFiltering()
-    .AddSorting();
+    .AddSorting()
+    .AddInMemorySubscriptions();
 
 // Add services to the container.
 
@@ -39,5 +41,7 @@ app.MapControllers();
 
 // 3. use graphQL endpoint 
 app.MapGraphQL("/graphql");
+// 4. use websocket for subscription 
+app.UseWebSockets();
 
 app.Run();
