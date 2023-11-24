@@ -1,5 +1,7 @@
 using CommanderGQL.Data;
 using CommanderGQL.GraphQL;
+using CommanderGQL.GraphQL.Commands;
+using CommanderGQL.GraphQL.Platforms;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +13,15 @@ builder.Services.AddPooledDbContextFactory<AppDbContext>(options =>
 });
 
 // 2. Add the graphQL server 
-builder.Services.AddGraphQLServer().AddQueryType<Query>();
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    .AddType<PlatformType>()
+    .AddType<CommandType>()
+    //.AddProjections(); // enables parent, child projection
+    .AddFiltering()
+    .AddSorting();
 
 // Add services to the container.
 
